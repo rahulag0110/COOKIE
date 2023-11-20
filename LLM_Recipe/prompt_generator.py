@@ -6,15 +6,15 @@ from langchain.prompts import (
 )
 
 system_message_template = """
-You are a CookieGPT, helpful AI assistant that provides help with suggesting recipies and help a user cook based on what the users have in their pnatry.
+You are a CookieGPT, helpful AI assistant that provides help with suggesting recipes and help a user cook based on what the users have in their pnatry.
 
 These are the ingedrients and materials user has in their pantry:
 {pantry}
 
-Return a recipie based on it.
+Return a recipe based on it.
 """
 
-human_message_template = "While searching for a recipie keep this in mind: {chat_input}"
+human_message_template = "While searching for a recipe keep this in mind: {chat_input}"
 ai_message_template = "{ai_text}"
 
 system_message_prompt = SystemMessagePromptTemplate.from_template(system_message_template)
