@@ -3,13 +3,14 @@ import os
 import io
 
 from prompt_generator import prompt_generator
+from image_read import img_to_pantry_list
 
 from langchain.chat_models import ChatOpenAI
 
-def return_recipe(pantry, chat_input):
+def return_recipe(input, outputFormat, chatInput):
 
-    llm = ChatOpenAI(openai_api_key="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", temperature = 0, model = "gpt-3.5-turbo")
-    prompt = prompt_generator(pantry, chat_input)
+    llm = ChatOpenAI(openai_api_key="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", temperature = 0, model = "gpt-4")
+    prompt = prompt_generator(input, outputFormat, chatInput)
     
     answer = llm(prompt)
     
@@ -30,10 +31,12 @@ app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 
 
-@app.route('/')
+@app.route('/',  methods=['POST'])
 def index():
-    print(return_recipe("[Chicken Breast, onions, tomatoes, chillies, oil, spices]", "I want to something quick and easy but Indian style.").content)
-    return jsonify({"test": [return_recipe("[Chicken Breast, onions, tomatoes, chillies, oil, spices]", "I want to something quick and easy but Indian style.").content]})
+
+    return jsonify({"recipeName": "test", 
+                    "ingredientsUsed": ["chicken", "pork", "oil"],
+                    "steps": ["1. test", "2. test2", "3. test3"]})
 
 
 
@@ -43,14 +46,43 @@ def predict_url_handler():
     try:
         # image_url = json.loads(request.get_data().decode('utf-8'))['url']
         # results = predict_url(image_url)
+        input = {
+            "pantry": "",
+            "timeOfDay": "Lunch",
+            "cuisine": "Asian",
+            "numberOfRecipes": 1,
+            "numberOfServings": 5,    
+        }
+
+        outputFormat = """ [{
+            "recipeName": "Name of the recipe",
+            "ingedrientsUsed": "Ingredients used in the recipe",
+            "servings": "Number of servings",
+            "steps": "Steps to cook the recipe mentioned clearly in a numbered list",
+        }, {...}, {...}] """
+
         data = json.loads(request.get_data().decode('utf-8'))
-        pantry = data['pantry']
+        input["pantry"] = data['pantry']
         chat_input = data['chat_input']
-        results = return_recipe(pantry, chat_input).content
+
+        results = return_recipe(input, outputFormat, chat_input).content
         return jsonify({"result": results})
     except Exception as e:
         print('EXCEPTION:', str(e))
         return 'Error processing data'
+    
+@app.route('/image', methods=['POST'])
+
+def get_pantries_from_image():
+    try:
+        data = json.loads(request.get_data().decode('utf-8'))
+        imagebase64 = data['image']
+        result = img_to_pantry_list(imagebase64)
+        return jsonify({"result": result})
+    except Exception as e:
+        print("EXCEPTION: ", str(e))
+        return 'Error processing image'
+
 
 
 if __name__ == '__main__':
