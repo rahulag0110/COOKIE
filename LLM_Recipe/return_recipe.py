@@ -2,10 +2,10 @@ from LLM_Recipe.prompt_generator import prompt_generator
 
 from langchain.chat_models import ChatOpenAI
 
-def return_recipe(pantry, chat_input):
+def return_recipe(input, outputFormat, chatInput):
 
     llm = ChatOpenAI(openai_api_key="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", temperature = 0, model = "gpt-3.5-turbo")
-    prompt = prompt_generator(pantry, chat_input)
+    prompt = prompt_generator(input, outputFormat, chatInput)
     
     answer = llm(prompt)
     
