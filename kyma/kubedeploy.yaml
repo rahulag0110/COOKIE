@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: capexample-app-reinatt-1
+  namespace: kaist-team01
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: capexample-app-reinatt-1
+  template:
+    metadata:
+      labels:
+        app: capexample-app-reinatt-1
+        version: v1
+    spec:
+      containers:
+      - name: capexample-app-reinatt-1
+        image: reinattwijaya06/sap_backend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4004
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: capexample-service-reinatt-1
+  labels:
+    app: capexample-app-reinatt-1
+spec:
+  ports:
+  - port: 4004
+    name: http
+    targetPort: 4004
+  selector:
+    app: capexample-app-reinatt-1
+---
+apiVersion: gateway.kyma-project.io/v1beta1
+kind: APIRule
+metadata:
+  name: kaist-team01-reinatt-1-rule
+  namespace: kaist-team01
+spec:
+  gateway: kyma-gateway.kyma-system.svc.cluster.local
+  service:
+    name: capexample-service-reinatt-1
+    port: 4004
+  host: kaist-team01-reinatt
+  rules:
+    - path: /.*
+      methods: ["GET","POST"]
+      mutators: []
+      accessStrategies:
+        - handler: noop
