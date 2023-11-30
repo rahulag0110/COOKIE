@@ -1,6 +1,6 @@
 from LLM_Recipe.return_recipe import return_recipe
 input = {
-    "pantry": "[chicken drumsticks, chives, carrots, potatoes, tomatoes, onions, garlic, mayonaise, corn, papaya]",
+    "pantry": "[chicken drumsticks, chives, carrots, potatoes, tomatoes, onions, garlic, mayonaise, corn, papaya, grapes, yogurt, chilli, green beans]",
     "diet": "strict diet",
     "spiceLevel": "medium"   
 }

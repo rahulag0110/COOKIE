@@ -17,7 +17,7 @@ Output a list of recipes. Each recipe should be strictly a JSON with the followi
 # {numberOfRecipes}, {numberOfServings} : Number of recipies you suggest and proprtion of the recipe.
 
 
-human_message_template = "Don't have any greetins or any extra information in the output. Just follow the format very carefully."
+human_message_template = "Don't have any greetins or any extra information in the output. Just follow the format very carefully. {chatInput}"
 ai_message_template = "{ai_text}"
 
 system_message_prompt = SystemMessagePromptTemplate.from_template(system_message_template)
@@ -41,6 +41,6 @@ outputFormat = """ [{
     "steps": "Steps to cook the recipe mentioned clearly in a numbered list",
 }, {...}, {...}] """
 
-def prompt_generator(input, outputFormat, chatInput):
+def recipe_prompt_generator(input, outputFormat, chatInput):
     prompt = chat_prompt.format_prompt(pantry = input["pantry"], diet = input["diet"], spiceLevel = input["spiceLevel"], outputFormat = outputFormat, chatInput = chatInput).to_messages()
     return prompt
