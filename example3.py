@@ -9,4 +9,4 @@ recipe = [
     ]
 chat = chat_with_recipe(recipe, "Can you explain step 3 in more detail?")
 
-print(chat.content)
+print(chat)

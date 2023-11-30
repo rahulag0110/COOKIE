@@ -9,4 +9,4 @@ def chat_with_recipe(recipe, chatInput):
     
     answer = llm(prompt)
     
-    return answer
+    return answer.content

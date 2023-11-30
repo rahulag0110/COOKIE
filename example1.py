@@ -9,11 +9,6 @@ outputFormat = """ [
 {...},
 {...}
 ] """
-recipe = return_recipe(input, outputFormat, "I want something easy and quick to make.")
+recipe = return_recipe(input, outputFormat, "I want something delicious and good looking for a dinner party.")
 
-#extracting content from the recipe
-answer = recipe.content
-
-with open("example1.txt", 'w') as file:
-    file.write(answer)
-print(answer)
+print(recipe)
