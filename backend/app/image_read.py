@@ -9,13 +9,9 @@ def encode_image(image_path):
   with open(image_path, "rb") as image_file:
     return base64.b64encode(image_file.read()).decode('utf-8')
 
-# Path to your image
-image_path = "img2.jpeg"
-
-def img_to_pantry_list(image_path):
+def img_to_pantry_list(base64_image):
 
 # Getting the base64 string
-  base64_image = encode_image(image_path)
 
   headers = {
     "Content-Type": "application/json",

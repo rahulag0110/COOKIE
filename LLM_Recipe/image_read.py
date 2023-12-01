@@ -10,7 +10,7 @@ def encode_image(image_path):
     return base64.b64encode(image_file.read()).decode('utf-8')
 
 # Path to your image
-image_path = "img2.jpeg"
+image_path = "../img2.jpeg"
 
 def img_to_pantry_list(image_path):
 
@@ -48,3 +48,5 @@ def img_to_pantry_list(image_path):
 
   content = response.json()["choices"][0]["message"]["content"]
   return content
+
+print(type(img_to_pantry_list(image_path)))

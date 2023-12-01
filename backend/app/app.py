@@ -2,19 +2,21 @@ import json
 import os
 import io
 
-from prompt_generator import prompt_generator
 from image_read import img_to_pantry_list
 
 from langchain.chat_models import ChatOpenAI
+from recipe_prompt_generator import recipe_prompt_generator
+import json
 
 def return_recipe(input, outputFormat, chatInput):
 
     llm = ChatOpenAI(openai_api_key="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", temperature = 0, model = "gpt-4")
-    prompt = prompt_generator(input, outputFormat, chatInput)
+    prompt = recipe_prompt_generator(input, outputFormat, chatInput)
     
     answer = llm(prompt)
-    
-    return answer
+    str_form = answer.content
+    json_form = json.loads(str_form)
+    return json_form
 
 # Imports for the REST API
 from flask import Flask, request, jsonify
@@ -66,7 +68,7 @@ def predict_url_handler():
         chat_input = data['chat_input']
 
         results = return_recipe(input, outputFormat, chat_input).content
-        return jsonify({"result": results})
+        return results
     except Exception as e:
         print('EXCEPTION:', str(e))
         return 'Error processing data'
