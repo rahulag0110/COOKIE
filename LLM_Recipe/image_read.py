@@ -1,5 +1,6 @@
 import base64
 import requests
+import ast
 
 # OpenAI API Key
 api_key = "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"
@@ -10,7 +11,7 @@ def encode_image(image_path):
     return base64.b64encode(image_file.read()).decode('utf-8')
 
 # Path to your image
-image_path = "../img2.jpeg"
+# image_path = "img2.jpeg"
 
 def img_to_pantry_list(image_path):
 
@@ -30,7 +31,7 @@ def img_to_pantry_list(image_path):
         "content": [
           {
             "type": "text",
-            "text": """ Identify the food ingedrients and take a guess in how many days it will expire in this image. If you have no idea about expiration date leave it blank. in the following format ["ingedrient1 (expiry)", "ingedrient2 (expiry)", ...]. Example: ["carrot (2 days)", "tomato (3 days)"] """
+            "text": """ Identify the food ingedrients and return in the following format ["ingedrient1", ingedriernt2, ...]. Only return the list of ingedrients that are in the image. If you can't identify any ingedrients return []. Also just reutrn th ingedrients list and nothing else. I don't want any other text"""
           },
           {
             "type": "image_url",
@@ -47,6 +48,7 @@ def img_to_pantry_list(image_path):
   response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
 
   content = response.json()["choices"][0]["message"]["content"]
-  return content
+  converted_list = ast.literal_eval(content)
+  return converted_list
 
-print(type(img_to_pantry_list(image_path)))
+# print(type(img_to_pantry_list(image_path)))
