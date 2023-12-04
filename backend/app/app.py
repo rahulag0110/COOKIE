@@ -12,12 +12,14 @@ import json
 
 def return_recipe(input, chatInput):
 
-    llm = ChatOpenAI(openai_api_key="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", temperature = 0, model = "gpt-4")
+    llm = ChatOpenAI(openai_api_key="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", temperature = 0, model = "gpt-4")
     prompt = recipe_prompt_generator(input, chatInput)
     
     answer = llm(prompt)
     str_form = answer.content
+    print(str_form)
     json_form = json.loads(str_form)
+    print(json_form)
     return json_form
 
 # Imports for the REST API
