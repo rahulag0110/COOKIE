@@ -14,7 +14,7 @@ You might have generated a recipie based on the above details. Here is a previou
 Output a single recipie. Each recipe should be strictly a JSON with the following keys: recipeName, ingedrientsUsed, servings, steps. Here is an example {outputFormat} Don't include any greeting or any extra information in the output.
 """
 
-human_message_template = "Don't have any greetins or any extra information in the output. Just follow the format very carefully. {chatInput}"
+human_message_template = "Don't have any greetings or any extra information in the output. Just follow the format very carefully. {chatInput}"
 ai_message_template = "{ai_text}"
 
 system_message_prompt = SystemMessagePromptTemplate.from_template(system_message_template)

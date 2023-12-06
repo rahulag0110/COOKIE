@@ -10,16 +10,16 @@ from recipe_prompt_generator import recipe_prompt_generator
 from chat import chat_with_recipe
 import json
 
-def return_recipe(input, chatInput):
+def return_recipe(input, chatInput, outputFormat):
 
     llm = ChatOpenAI(openai_api_key="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", temperature = 0, model = "gpt-4")
-    prompt = recipe_prompt_generator(input, chatInput)
+    prompt = recipe_prompt_generator(input, chatInput, outputFormat)
     
     answer = llm(prompt)
     str_form = answer.content
     print(str_form)
     json_form = json.loads(str_form)
-    print(json_form)
+    print("OIK: ", json_form)
     return json_form
 
 # Imports for the REST API
@@ -63,8 +63,14 @@ def predict_url_handler():
         data = json.loads(request.get_data().decode('utf-8'))
         input["pantry"] = data['pantry']
         chat_input = data['chat_input']
+        outputFormat = """{
+            "recipeName": "ABC Recipe",
+            "ingredientsUsed": ["A", "B", "C"],
+            "servings": 2,
+            "steps": ["1. A step", "2. B step", "3. C step"]
+        }"""
 
-        results = return_recipe(input, chat_input)
+        results = return_recipe(input, chat_input, outputFormat)
         for i in range(len(results["ingredientsUsed"])):
             results["ingredientsUsed"][i] = "\n" + results["ingredientsUsed"][i]
         for i in range(len(results["steps"])):
