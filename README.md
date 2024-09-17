@@ -4,10 +4,10 @@
 
 ### Architecture Diagram
 
-![AD1](architecture_diagram1)
-![AD2](architecture_diagram2)
+![AD1](architecture_diagram1.png)
+![AD2](architecture_diagram2.png)
 
 ### UI
 
-![UI1](ui1)
-![UI2](ui2)
+![UI1](ui1.png)
+![UI2](ui2.png)
